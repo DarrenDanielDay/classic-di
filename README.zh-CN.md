@@ -1,4 +1,4 @@
-# {NAME}
+# classic-di
 
 <div style="text-align: center">
   <img src="./logo.png" width="192" height="192" />
@@ -8,9 +8,9 @@
 
 ---
 
-[![Auto Test CI](https://github.com/DarrenDanielDay/{NAME}/actions/workflows/test.yml/badge.svg)](https://github.com/DarrenDanielDay/{NAME}/actions/) [![Publish CI](https://github.com/DarrenDanielDay/{NAME}/actions/workflows/publish.yml/badge.svg)](https://github.com/DarrenDanielDay/{NAME}/actions/) [![npm version](https://badge.fury.io/js/{NAME}.svg)](https://badge.fury.io/js/{NAME})
+[![Auto Test CI](https://github.com/DarrenDanielDay/classic-di/actions/workflows/test.yml/badge.svg)](https://github.com/DarrenDanielDay/classic-di/actions/) [![Publish CI](https://github.com/DarrenDanielDay/classic-di/actions/workflows/publish.yml/badge.svg)](https://github.com/DarrenDanielDay/classic-di/actions/) [![npm version](https://badge.fury.io/js/classic-di.svg)](https://badge.fury.io/js/classic-di)
 
-{DESCRIPTION}
+Classic dependency injection implementation with ECMA Decorators.
 
 ## 许可证
 

@@ -1,8 +1,9 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
+    "target": "ES2022",
     "module": "ESNext",
-    "moduleResolution": "Node",
+    "moduleResolution": "Bundler",
+    "resolvePackageJsonExports": true,
     "esModuleInterop": true,
     "isolatedModules": true,
     "forceConsistentCasingInFileNames": true,
@@ -19,10 +20,10 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "declaration": true,
-    "jsx": "react",
     "outDir": "dist",
     "declarationMap": true,
     "sourceMap": true,
+    "lib": ["ESNext"],
     "skipLibCheck": true
   },
   "buildOptions": {
