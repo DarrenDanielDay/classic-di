@@ -117,6 +117,33 @@ describe("token", () => {
 });
 
 describe("Container", () => {
+  describe("add", () => {
+    it("should use added instance", () => {
+      const container = new Container();
+      const instance: Dep1 = {
+        foo() {
+          return 1;
+        },
+      };
+      container.add(dep1, instance);
+      expect(container.get(dep1)).toBe(instance);
+    });
+    it("should emit error when instance exist", () => {
+      const container = new Container();
+      container.add(dep1, {
+        foo() {
+          return 1;
+        },
+      });
+      expect(() => {
+        container.add(dep1, {
+          foo() {
+            return 2;
+          },
+        });
+      }).toThrow(/instance/i);
+    });
+  });
   describe("register", () => {
     it("should emit error when received a constructor without injectable metadata", () => {
       const container = new Container();

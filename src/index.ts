@@ -147,6 +147,14 @@ export class Container {
     this.name = init?.name;
   }
 
+  add<T>(token: Token<T>, implementation: T) {
+    const key = token.key;
+    if (this.#instances.has(key)) {
+      throw new Error(`Instance of ${key.description} already exist.`);
+    }
+    this.#instances.set(key, implementation);
+  }
+
   register<T>(constructor: Constructor<T>) {
     const meta = this.#getMeta(constructor);
     if (!meta) {
