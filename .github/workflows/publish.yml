@@ -30,6 +30,8 @@ jobs:
         run: npm run build
       - name: Test Project
         run: npm run test
+      - name: Clear Test Output
+        run: npm run clear:tests
       - name: Publish NPM Package
         uses: JS-DevTools/npm-publish@v1
         with:
