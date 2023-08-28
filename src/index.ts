@@ -58,7 +58,11 @@ type MapTokensToParams<D extends readonly Token<any>[]> = {
  */
 export const Injectable = <T, D extends readonly Token<any>[] = readonly []>(meta: InjectableMeta<T, D>) => {
   return <C extends Constructor<T, MapTokensToParams<D>>>(_target: C, context: ClassDecoratorContext<C>) => {
-    context.metadata[$metadata] = meta;
+    const metadata = context.metadata;
+    if (!metadata) {
+      throw new Error('`metadata` not found in decorator context. Forgot to polyfill "Symbol.metadata"?');
+    }
+    metadata[$metadata] = meta;
   };
 };
 

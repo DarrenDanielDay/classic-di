@@ -116,6 +116,20 @@ describe("token", () => {
   });
 });
 
+describe("Injectable", () => {
+  it("should emit error if `Symbol.metadata` not polyfilled", () => {
+    expect(() => {
+      Injectable({})(class {}, {
+        kind: "class",
+        name: "foo",
+        // @ts-expect-error undefined when not polyfilled
+        metadata: undefined,
+        addInitializer() {},
+      });
+    }).toThrow(/polyfill/);
+  });
+});
+
 describe("Container", () => {
   describe("add", () => {
     it("should use added instance", () => {
