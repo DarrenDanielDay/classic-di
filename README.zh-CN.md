@@ -6,12 +6,11 @@
 
 [![Auto Test CI](https://github.com/DarrenDanielDay/classic-di/actions/workflows/test.yml/badge.svg)](https://github.com/DarrenDanielDay/classic-di/actions/) [![Publish CI](https://github.com/DarrenDanielDay/classic-di/actions/workflows/publish.yml/badge.svg)](https://github.com/DarrenDanielDay/classic-di/actions/) [![npm version](https://badge.fury.io/js/classic-di.svg)](https://badge.fury.io/js/classic-di)
 
-使用ECMA Decorators实现的经典依赖注入。
+使用 ECMA Decorators 实现的经典依赖注入。
 
-⚠ 此库仍然是实验性的。在正式发布之前，API可能会发生重大变更。
+⚠ 此库仍然是实验性的。在正式发布之前，API 可能会发生重大变更。
 
 ## 需求
-
 
 - TypeScript 5.2
 

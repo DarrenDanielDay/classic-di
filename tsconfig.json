@@ -29,5 +29,5 @@
   "buildOptions": {
     "force": true
   },
-  "include": ["src"],
+  "include": ["src"]
 }
