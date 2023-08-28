@@ -5,7 +5,9 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-/// <reference types="typescript/lib/lib.esnext.decorators.d.ts" />
+/**
+ * The token representing a dependency or service.
+ */
 export interface Token<T> {
   readonly type: "token";
   readonly key: symbol;
@@ -31,6 +33,9 @@ export const token = <T>(name: string, impl?: T): Token<T> => ({
  */
 export const $metadata = Symbol.for("classic-di-metadata");
 
+/**
+ * The metadata declared in {@link Injectable}.
+ */
 export interface InjectableMeta<T, D extends readonly Token<any>[] = readonly []> {
   implements?: Token<T>;
   requires?: D;
@@ -130,7 +135,14 @@ type ResolveContext =
     };
 
 export interface ContainerInit {
+  /**
+   * The parent container to borrow some instances as implementation.
+   */
   parent?: Container;
+  /**
+   * The name representing this instance.
+   * Useful to identify the instance for debug purpose.
+   */
   name?: string;
 }
 
@@ -147,6 +159,12 @@ export class Container {
     this.name = init?.name;
   }
 
+  /**
+   * Add an instance as implementation for the token.
+   * @param token the token
+   * @param implementation the instance
+   * @throws when instance exists
+   */
   add<T>(token: Token<T>, implementation: T) {
     const key = token.key;
     if (this.#instances.has(key)) {
@@ -155,6 +173,10 @@ export class Container {
     this.#instances.set(key, implementation);
   }
 
+  /**
+   * Register an `injectable` constructor.
+   * @param constructor the constructor
+   */
   register<T>(constructor: Constructor<T>) {
     const meta = this.#getMeta(constructor);
     if (!meta) {
@@ -173,6 +195,13 @@ export class Container {
     this.#injectables.set(key, constructor);
   }
 
+  /**
+   * Resolve how this container will create/get the implementation instance of the token
+   * or the path to create instance of the constructor.
+   * @param target token or `injectable` constructor
+   * @returns resolution
+   * @throws when cannot resolve any dependency in this container or its parent
+   */
   resolve(target: Token<any> | Constructor): Resolution {
     const resolveContext = new Map<symbol, ResolveContext>();
     const firstNode = this.#resolveFirstNode(target);
@@ -255,6 +284,11 @@ export class Container {
     };
   }
 
+  /**
+   * Create an instance with the resolved instantiate order.
+   * @param path instantiate order
+   * @returns the created instance
+   */
   create<T = any>(path: ResolveNode[]): T {
     const stack: any[] = [];
     for (let i = 0, l = path.length; i < l; i++) {
@@ -283,14 +317,32 @@ export class Container {
     return stack[0];
   }
 
+  /**
+   * Get the implementation instance of a token.
+   * @param token the token
+   * @returns the implementation instance
+   */
   get<T>(token: Token<T>): T {
     return this.#resolveAndCreate(token);
   }
 
+  /**
+   * Create an instance of a consumer class, using the dependencies in the container.
+   * The consumer class does not have to implement any token.
+   * @param consumer the injectable constructor
+   * @returns the instance
+   */
   consume<T>(consumer: Constructor<T>): T {
     return this.#resolveAndCreate(consumer);
   }
 
+  /**
+   * Defines how to create instance. By default, it's equal to call `Reflect.construct`.
+   * You can override this method to hook the instance creation in your custom child class.
+   * @param ctor constructor
+   * @param params constructor parameters
+   * @returns the created instance
+   */
   protected createInstance(ctor: Constructor, params: any[]): any {
     return Reflect.construct(ctor, params);
   }
@@ -359,8 +411,8 @@ export class Container {
     return parent.#resolveNode(token);
   }
 
-  #resolveAndCreate(token: Token<any> | Constructor) {
-    const resolved = this.resolve(token);
+  #resolveAndCreate(target: Token<any> | Constructor) {
+    const resolved = this.resolve(target);
     if (resolved.circular) {
       throw new CircularDependencyError(resolved);
     }
